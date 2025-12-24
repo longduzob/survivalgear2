@@ -1,0 +1,24 @@
+{%- doc -%}
+  Renders trust badges for product pages.
+
+  @param {object} product - The product object.
+{%- enddoc -%}
+
+{%- liquid
+  assign rating_value = product.metafields.custom.trust_rating_value.value | default: settings.trust_rating_value | default: '4,8'
+  assign reviews_count = product.metafields.custom.trust_reviews_count.value | default: settings.trust_reviews_count | default: 500
+  assign orders_count = product.metafields.custom.trust_orders_count.value | default: settings.trust_orders_count | default: 1000
+  assign customers_label = product.metafields.custom.trust_customers_label.value | default: settings.trust_customers_label | default: 'Clients satisfaits'
+  assign certified_label = settings.trust_certified_label | default: 'Certified Reviews'
+  assign reviews_label = settings.trust_reviews_link_label | default: 'Voir les avis'
+-%}
+
+<div class="trust-badges">
+  <div class="trust-badges__items">
+    <span>★★★★★ {{ rating_value }}/5 ({{ reviews_count }} avis)</span>
+    <span>+{{ orders_count }} commandes</span>
+    <span>{{ customers_label }}</span>
+    <span class="trust-badges__pill">{{ certified_label }}</span>
+  </div>
+  <a class="trust-badges__link" href="#product-reviews">{{ reviews_label }}</a>
+</div>
