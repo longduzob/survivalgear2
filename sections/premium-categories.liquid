@@ -13,12 +13,28 @@
   <div class="premium-category-grid">
     {% for block in section.blocks %}
       {% assign collection = block.settings.collection %}
-      <article class="premium-category-card" {{ block.shopify_attributes }}>
-        <strong>{{ collection.title | default: block.settings.title }}</strong>
-        <p>{{ block.settings.text }}</p>
-        {% if collection != blank %}
-          <a class="button button-secondary" href="{{ collection.url }}">Explorer</a>
-        {% endif %}
+      {% assign category_image = block.settings.image %}
+      <article
+        class="premium-category-card{% if category_image != blank %} premium-category-card--image{% endif %}"
+        {{ block.shopify_attributes }}
+      >
+        <div
+          class="premium-category-card__media"
+          {% if category_image != blank %}
+            style="background-image: url({{ category_image | image_url: width: 1200 }})"
+            role="img"
+            aria-label="{{ category_image.alt | escape }}"
+          {% else %}
+            aria-hidden="true"
+          {% endif %}
+        ></div>
+        <div class="premium-category-card__content">
+          <strong>{{ collection.title | default: block.settings.title }}</strong>
+          <p>{{ block.settings.text }}</p>
+          {% if collection != blank %}
+            <a class="button button-secondary" href="{{ collection.url }}">Explorer</a>
+          {% endif %}
+        </div>
       </article>
     {% endfor %}
   </div>
@@ -96,6 +112,11 @@
           "type": "collection",
           "id": "collection",
           "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
         },
         {
           "type": "text",

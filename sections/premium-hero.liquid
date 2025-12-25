@@ -19,8 +19,20 @@
         {% endif %}
       </div>
     </div>
-    <div class="premium-hero__media" aria-hidden="true">
-      {{ 'hero-apparel-1' | placeholder_svg_tag }}
+    {% assign hero_image = section.settings.hero_image %}
+    <div
+      class="premium-hero__media{% if hero_image != blank %} premium-hero__media--image{% endif %}"
+      {% if hero_image != blank %}
+        style="background-image: url({{ hero_image | image_url: width: 1600 }})"
+        role="img"
+        aria-label="{{ hero_image.alt | escape }}"
+      {% else %}
+        aria-hidden="true"
+      {% endif %}
+    >
+      {% if hero_image == blank %}
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+      {% endif %}
     </div>
   </div>
 
@@ -55,6 +67,11 @@
       "id": "subheading",
       "label": "Subheading",
       "default": "Matériaux robustes, design sobre et performances éprouvées pour chaque mission en nature."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
     },
     {
       "type": "text",
